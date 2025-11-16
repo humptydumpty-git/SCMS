@@ -293,6 +293,17 @@ const SchoolMS = (() => {
                         </div>
                     </div>
                 </div>
+            </div>
+        `;
+    };
+
+    // Public API
+    return {
+        init,
+        showLogin: showLoginForm,
+        showDashboard
+    };
+})();
 
 // Initialize the application when the DOM is fully loaded
 if (document.readyState === 'loading') {
