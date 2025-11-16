@@ -289,7 +289,7 @@ const SchoolMS = (() => {
     };
 })();
 
-// Initialize the application when the DOM is loaded
+// Initialize the application when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     SchoolMS.init();
 });
