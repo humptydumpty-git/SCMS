@@ -59,7 +59,7 @@
     </div>
 
     <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal show" id="loginModal" tabindex="-1" aria-hidden="false" data-bs-backdrop="static" style="display: block; background-color: rgba(0,0,0,0.5);">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -69,11 +69,11 @@
                     <form id="loginForm">
                         <div class="mb-3">
                             <label for="loginEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" required>
+                            <input type="email" class="form-control" id="loginEmail" required value="admin@school.edu">
                         </div>
                         <div class="mb-3">
                             <label for="loginPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" required>
+                            <input type="password" class="form-control" id="loginPassword" required value="admin123">
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
