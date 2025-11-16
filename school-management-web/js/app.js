@@ -290,6 +290,14 @@ const SchoolMS = (() => {
 })();
 
 // Initialize the application when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        SchoolMS.init();
+    });
+} else {
+    // DOMContentLoaded has already fired
     SchoolMS.init();
-});
+}
+
+// For debugging
+console.log('app.js loaded');
