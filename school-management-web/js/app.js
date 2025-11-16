@@ -655,132 +655,119 @@ const SchoolMS = (() => {
                 <div class="card-body">
                     <form id="studentForm">
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="firstName" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="lastName" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="dateOfBirth" class="form-label">Date of Birth <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="dateOfBirth" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Gender <span class="text-danger">*</span></label>
-                                <div class="d-flex gap-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" checked>
-                                        <label class="form-check-label" for="genderMale">
-                                            Male
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
-                                        <label class="form-check-label" for="genderFemale">
-                                            Female
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderOther" value="Other">
-                                        <label class="form-check-label" for="genderOther">
-                                            Other
-                                        </label>
-                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" value="${student?.lastName || ''}" required>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="email">
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="gender" required>
+                                        <option value="">-- Select Gender --</option>
+                                        <option value="Male" ${student?.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                        <option value="Female" ${student?.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                        <option value="Other" ${student?.gender === 'Other' ? 'selected' : ''}>Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dateOfBirth" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="dateOfBirth" value="${student?.dateOfBirth || ''}" required>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="phone">
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" value="${student?.email || ''}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="phone" value="${student?.phone || ''}">
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <textarea class="form-control" id="address" rows="2"></textarea>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="studentClass" class="form-label">Class <span class="text-danger">*</span></label>
-                                <select class="form-select" id="studentClass" required>
-                                    ${classes.map(c => `<option value="${c}">Class ${c}</option>`).join('')}
-                                </select>
+                            
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    <textarea class="form-control" id="address" rows="2">${student?.address || ''}</textarea>
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="section" class="form-label">Section <span class="text-danger">*</span></label>
-                                <select class="form-select" id="section" required>
-                                    ${sections.map(s => `<option value="${s}">Section ${s}</option>`).join('')}
-                                </select>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="class" class="form-label">Class <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="class" required>
+                                        <option value="">-- Select Class --</option>
+                                        ${classes.map(cls => 
+                                            `<option value="${cls}" ${student?.class === cls ? 'selected' : ''}>${cls}</option>`
+                                        ).join('')}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="section" class="form-label">Section <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="section" required>
+                                        <option value="">-- Select Section --</option>
+                                        ${sections.map(sec => 
+                                            `<option value="${sec}" ${student?.section === sec ? 'selected' : ''}>${sec}</option>`
+                                        ).join('')}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="admissionDate" class="form-label">Admission Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="admissionDate" 
+                                           value="${student?.admissionDate || new Date().toISOString().split('T')[0]}" required>
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="admissionDate" class="form-label">Admission Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="admissionDate" value="${new Date().toISOString().split('T')[0]}" required>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="parentName" class="form-label">Parent/Guardian Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="parentName" value="${student?.parentName || ''}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="parentPhone" class="form-label">Parent/Guardian Phone <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="parentPhone" value="${student?.parentPhone || ''}" required>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <h5 class="mt-4 mb-3">Parent/Guardian Information</h5>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="parentName" class="form-label">Parent/Guardian Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="parentName" required>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="parentEmail" class="form-label">Parent/Guardian Email</label>
+                                    <input type="email" class="form-control" id="parentEmail" value="${student?.parentEmail || ''}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="status" required>
+                                        <option value="Active" ${student?.status === 'Active' ? 'selected' : ''}>Active</option>
+                                        <option value="Inactive" ${student?.status === 'Inactive' ? 'selected' : ''}>Inactive</option>
+                                        <option value="Graduated" ${student?.status === 'Graduated' ? 'selected' : ''}>Graduated</option>
+                                        <option value="Transferred" ${student?.status === 'Transferred' ? 'selected' : ''}>Transferred</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="parentRelation" class="form-label">Relationship <span class="text-danger">*</span></label>
-                                <select class="form-select" id="parentRelation" required>
-                                    <option value="Father">Father</option>
-                                    <option value="Mother">Mother</option>
-                                    <option value="Guardian">Guardian</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                            
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    ${isEditMode ? `
+                                        <button type="button" class="btn btn-outline-danger me-2" id="deleteStudentBtn">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    ` : ''}
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary me-2" id="resetFormBtn">
+                                        <i class="fas fa-undo me-1"></i> Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-1"></i> ${isEditMode ? 'Update' : 'Save'} Student
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="parentEmail" class="form-label">Parent Email</label>
-                                <input type="email" class="form-control" id="parentEmail">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="parentPhone" class="form-label">Parent Phone <span class="text-danger">*</span></label>
-                                <input type="tel" class="form-control" id="parentPhone" required>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="parentAddress" class="form-label">Parent Address</label>
-                            <textarea class="form-control" id="parentAddress" rows="2"></textarea>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-                                <select class="form-select" id="status" required>
-                                    <option value="Active" selected>Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                    <option value="Graduated">Graduated</option>
-                                    <option value="Transferred">Transferred</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="admissionNumber" class="form-label">Admission Number</label>
-                                <input type="text" class="form-control" id="admissionNumber" value="${admissionNumber}" readonly>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-end gap-2 mt-4">
+                        </form>
+                    </div>
                             <button type="button" class="btn btn-secondary" onclick="showPage('students')">
                                 <i class="fas fa-times me-1"></i> Cancel
                             </button>
@@ -832,6 +819,362 @@ const SchoolMS = (() => {
         // Show success message and go back to students list
         alert('Student added successfully!');
         showPage('students');
+    };
+
+    // Show fees content
+    const showFeesContent = (container) => {
+        if (!container) return;
+        
+        const currentYear = academicYears.find(y => y.isCurrent) || academicYears[0];
+        
+        container.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="mb-0">Fee Management</h2>
+                    <p class="text-muted mb-0">Academic Year: ${currentYear.name}</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="addFeeBtn">
+                        <i class="fas fa-plus me-1"></i> Record Payment
+                    </button>
+                    <button class="btn btn-outline-secondary ms-2" id="exportFeesBtn">
+                        <i class="fas fa-download me-1"></i> Export
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body p-3">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-wallet text-primary fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Total Collected</h6>
+                                    <h4 class="mb-0">₹0</h4>
+                                    <small class="text-muted">This month</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-check-circle text-success fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Paid Fees</h6>
+                                    <h4 class="mb-0">0</h4>
+                                    <small class="text-muted">This month</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-warning bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-exclamation-triangle text-warning fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Pending Fees</h6>
+                                    <h4 class="mb-0">0</h4>
+                                    <small class="text-muted">This month</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-info bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-users text-info fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Total Students</h6>
+                                    <h4 class="mb-0">${students.length}</h4>
+                                    <small class="text-muted">All classes</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="d-flex align-items-center">
+                            <div class="input-group me-3" style="width: 300px;">
+                                <span class="input-group-text bg-transparent"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control" id="feeSearchInput" placeholder="Search by student, class, or receipt">
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="feeFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-filter me-1"></i> Filter
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="feeFilterDropdown">
+                                    <li><a class="dropdown-item" href="#" data-filter="all">All Records</a></li>
+                                    <li><a class="dropdown-item" href="#" data-filter="pending">Pending Fees</a></li>
+                                    <li><a class="dropdown-item" href="#" data-filter="paid">Paid Fees</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><h6 class="dropdown-header">By Class</h6></li>
+                                    ${classes.map(cls => `
+                                        <li><a class="dropdown-item" href="#" data-filter="class-${cls}">Class ${cls}</a></li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-secondary me-2" id="printFeesBtn">
+                                <i class="fas fa-print me-1"></i> Print
+                            </button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" id="importFeesBtn"><i class="fas fa-file-import me-2"></i> Import from Excel</a></li>
+                                    <li><a class="dropdown-item" href="#" id="exportFeesCsvBtn"><i class="fas fa-file-csv me-2"></i> Export as CSV</a></li>
+                                    <li><a class="dropdown-item" href="#" id="exportFeesPdfBtn"><i class="fas fa-file-pdf me-2"></i> Export as PDF</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Receipt #</th>
+                                    <th>Student</th>
+                                    <th>Class</th>
+                                    <th>Amount</th>
+                                    <th>Paid</th>
+                                    <th>Balance</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="feesTableBody">
+                                <tr>
+                                    <td colspan="9" class="text-center py-5 text-muted">
+                                        <div class="mb-2">
+                                            <i class="fas fa-wallet fa-2x opacity-25"></i>
+                                        </div>
+                                        No fee records found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-muted">
+                            Showing <span id="feeStart">0</span> to <span id="feeEnd">0</span> of <span id="feeTotal">0</span> entries
+                        </div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Setup event listeners for fees
+        setupFeeEventListeners();
+    };
+    
+    // Setup event listeners for fee management
+    const setupFeeEventListeners = () => {
+        // Add event listeners for fee management
+        document.getElementById('addFeeBtn')?.addEventListener('click', showAddFeeForm);
+        document.getElementById('exportFeesBtn')?.addEventListener('click', exportFees);
+        document.getElementById('printFeesBtn')?.addEventListener('click', printFees);
+        document.getElementById('importFeesBtn')?.addEventListener('click', importFees);
+        document.getElementById('exportFeesCsvBtn')?.addEventListener('click', () => exportFees('csv'));
+        document.getElementById('exportFeesPdfBtn')?.addEventListener('click', () => exportFees('pdf'));
+        
+        // Search functionality
+        const searchInput = document.getElementById('feeSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                // Implement search functionality
+                console.log('Searching for:', e.target.value);
+            });
+        }
+        
+        // Filter functionality
+        document.querySelectorAll('[data-filter]').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filter = e.target.getAttribute('data-filter');
+                console.log('Filtering by:', filter);
+                // Implement filter functionality
+            });
+        });
+    };
+    
+    // Show add fee form
+    const showAddFeeForm = () => {
+        // Create a modal for adding fees
+        const modalHtml = `
+            <div class="modal fade" id="addFeeModal" tabindex="-1" aria-labelledby="addFeeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addFeeModalLabel">Record Fee Payment</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addFeeForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="studentSelect" class="form-label">Select Student <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="studentSelect" required>
+                                            <option value="">-- Select Student --</option>
+                                            ${students.map(student => `
+                                                <option value="${student.id}">
+                                                    ${student.firstName} ${student.lastName} (${student.admissionNumber}) - Class ${student.class}${student.section}
+                                                </option>
+                                            `).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="paymentDate" class="form-label">Payment Date <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="paymentDate" required value="${new Date().toISOString().split('T')[0]}">
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="feeType" class="form-label">Fee Type <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="feeType" required>
+                                            <option value="">-- Select Fee Type --</option>
+                                            <option value="tuition">Tuition Fee</option>
+                                            <option value="admission">Admission Fee</option>
+                                            <option value="exam">Examination Fee</option>
+                                            <option value="transport">Transport Fee</option>
+                                            <option value="uniform">Uniform Fee</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="amount" class="form-label">Amount (₹) <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="amount" required min="0" step="0.01">
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="paymentMethod" class="form-label">Payment Method <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="paymentMethod" required>
+                                            <option value="cash">Cash</option>
+                                            <option value="card">Credit/Debit Card</option>
+                                            <option value="bank">Bank Transfer</option>
+                                            <option value="upi">UPI</option>
+                                            <option value="check">Check</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="referenceNo" class="form-label">Reference No.</label>
+                                        <input type="text" class="form-control" id="referenceNo" placeholder="Transaction/Check no.">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="remarks" class="form-label">Remarks</label>
+                                    <textarea class="form-control" id="remarks" rows="2"></textarea>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Record Payment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Add modal to the document
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Initialize the modal
+        const modal = new bootstrap.Modal(document.getElementById('addFeeModal'));
+        modal.show();
+        
+        // Handle form submission
+        document.getElementById('addFeeForm')?.addEventListener('submit', handleAddFee);
+        
+        // Clean up the modal when it's closed
+        document.getElementById('addFeeModal')?.addEventListener('hidden.bs.modal', function() {
+            this.remove();
+        });
+    };
+    
+    // Handle add fee form submission
+    const handleAddFee = (e) => {
+        e.preventDefault();
+        
+        // Get form data
+        const feeData = {
+            id: 'FEE-' + Date.now(),
+            studentId: document.getElementById('studentSelect').value,
+            studentName: document.getElementById('studentSelect').options[document.getElementById('studentSelect').selectedIndex].text,
+            paymentDate: document.getElementById('paymentDate').value,
+            feeType: document.getElementById('feeType').value,
+            amount: parseFloat(document.getElementById('amount').value),
+            paymentMethod: document.getElementById('paymentMethod').value,
+            referenceNo: document.getElementById('referenceNo').value || null,
+            remarks: document.getElementById('remarks').value || null,
+            status: 'paid',
+            createdAt: new Date().toISOString()
+        };
+        
+        // Add to fees array
+        fees.push(feeData);
+        
+        // Save to localStorage
+        saveData();
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addFeeModal'));
+        if (modal) modal.hide();
+        
+        // Show success message
+        alert('Fee payment recorded successfully!');
+        
+        // Refresh the fees list
+        const appContent = document.getElementById('app-content');
+        if (appContent) showFeesContent(appContent);
+    };
+    
+    // Export fees
+    const exportFees = (format = 'excel') => {
+        // Implement export functionality
+        alert(`Exporting fees data as ${format.toUpperCase()}...`);
+        // In a real implementation, this would generate and download the file
+    };
+    
+    // Print fees
+    const printFees = () => {
+        // Implement print functionality
+        window.print();
+    };
+    
+    // Import fees
+    const importFees = () => {
+        // Implement import functionality
+        alert('Import fees from Excel (not implemented yet)');
     };
 
     // Public API
