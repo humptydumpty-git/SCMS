@@ -129,7 +129,15 @@ const SchoolMS = (() => {
         currentUser = null;
         localStorage.removeItem('currentUser');
         console.log('User removed from localStorage');
-        showLogin();
+        
+        // Hide sidebar
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.style.display = 'none';
+        }
+        
+        // Show login form
+        showLoginForm();
     };
     
     // Show login form
