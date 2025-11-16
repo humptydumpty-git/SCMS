@@ -91,13 +91,18 @@ const SchoolMS = (() => {
             console.log('User saved to localStorage');
             
             // Hide login modal
-            const loginModalEl = document.getElementById('loginModal');
-            const loginModal = bootstrap.Modal.getInstance(loginModalEl);
+            const loginModal = document.getElementById('loginModal');
             if (loginModal) {
-                loginModal.hide();
+                loginModal.style.display = 'none';
                 console.log('Login modal hidden');
             } else {
                 console.warn('Login modal not found');
+            }
+            
+            // Show sidebar and main content
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.style.display = 'block';
             }
             
             // Show dashboard
@@ -140,7 +145,7 @@ const SchoolMS = (() => {
         // Check if user is logged in
         if (!currentUser) {
             console.log('No current user, redirecting to login');
-            showLogin();
+            showLoginForm();
             return;
         }
         
@@ -152,7 +157,7 @@ const SchoolMS = (() => {
         
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === '#dashboard') {
+            if (link.getAttribute('data-page') === 'dashboard') {
                 link.classList.add('active');
                 console.log('Set active nav item: Dashboard');
             }
@@ -163,13 +168,21 @@ const SchoolMS = (() => {
         
         // Render dashboard content
         appContent.innerHTML = `
-            <div class="container mt-4">
-                <h2>Welcome, ${currentUser.name}!</h2>
-                <p>Email: ${currentUser.email}</p>
-                <p>Role: ${currentUser.role}</p>
-                <div class="row mt-4" id="dashboard-stats">
-                    <!-- Stats will be loaded here -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Dashboard</h1>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Welcome, ${currentUser.name}!</h5>
+                            <p class="card-text">You are logged in as ${currentUser.role}.</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="row" id="dashboard-stats">
+                <!-- Stats will be loaded here -->
             </div>
         `;
         

@@ -51,10 +51,37 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-4">
-        <!-- Page Content will be loaded here -->
-        <div id="content">
-            <!-- Dashboard content will be loaded here by JavaScript -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="display: none;">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-page="dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="students">
+                                <i class="fas fa-user-graduate me-2"></i> Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="fees">
+                                <i class="fas fa-money-bill-wave me-2"></i> Fees
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div id="app-content" class="mt-4">
+                    <!-- Content will be loaded here by JavaScript -->
+                </div>
+            </main>
         </div>
     </div>
 
