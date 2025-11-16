@@ -56,8 +56,9 @@ const SchoolMS = (() => {
             console.warn('Login form not found');
         }
         
-        // Logout button (using event delegation since it might be dynamically added)
+        // Handle all clicks in the document
         document.addEventListener('click', (e) => {
+            // Logout button
             if (e.target.matches('#logoutBtn, #logoutBtn *')) {
                 e.preventDefault();
                 handleLogout();
@@ -70,6 +71,18 @@ const SchoolMS = (() => {
                 const page = navLink.getAttribute('data-page');
                 console.log('Navigation clicked:', page);
                 showPage(page);
+            }
+            
+            // Add Student button
+            if (e.target.matches('#addStudentBtn, #addStudentBtn *')) {
+                e.preventDefault();
+                showAddStudentForm();
+            }
+            
+            // Add Fee button
+            if (e.target.matches('#addFeeBtn, #addFeeBtn *')) {
+                e.preventDefault();
+                showAddFeeForm();
             }
         });
         
@@ -243,6 +256,9 @@ const SchoolMS = (() => {
             case 'fees':
                 showFeesContent(appContent);
                 break;
+            case 'profile':
+                showProfileContent(appContent);
+                break;
             default:
                 showDashboard();
         }
@@ -277,97 +293,6 @@ const SchoolMS = (() => {
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
-    };
-    
-    // Show students content
-    const showStudentsContent = (container) => {
-        container.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Students</h2>
-                <button class="btn btn-primary" id="addStudentBtn">Add Student</button>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Class</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${students.map(student => `
-                            <tr>
-                                <td>${student.id}</td>
-                                <td>${student.name}</td>
-                                <td>${student.email}</td>
-                                <td>${student.class || 'N/A'}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    };
-    
-    // Show fees content
-    const showFeesContent = (container) => {
-        container.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Fee Management</h2>
-                <button class="btn btn-primary" id="addFeeBtn">Add Fee</button>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Student</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${fees.map(fee => `
-                            <tr>
-                                <td>${fee.id}</td>
-                                <td>${getStudentName(fee.studentId)}</td>
-                                <td>$${parseFloat(fee.amount || 0).toFixed(2)}</td>
-                                <td>${new Date(fee.date).toLocaleDateString()}</td>
-                                <td>${fee.status || 'Paid'}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    };
-    
-    // Helper function to get student name by ID
-    const getStudentName = (studentId) => {
-        const student = students.find(s => s.id === studentId);
-        return student ? student.name : 'Unknown';
-    };
-    
-    // Public methods
-    return {
-        init
-    };
-})();
 
 // Initialize the application when the DOM is fully loaded
 if (document.readyState === 'loading') {
