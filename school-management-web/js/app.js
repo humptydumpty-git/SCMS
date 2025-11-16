@@ -11,7 +11,10 @@ const SchoolMS = (() => {
         try {
             loadData();
             setupEventListeners();
-            checkAuth();
+            
+            // Show login form by default
+            showLoginForm();
+            
             console.log('Application initialized successfully');
         } catch (error) {
             console.error('Error during initialization:', error);
@@ -34,7 +37,7 @@ const SchoolMS = (() => {
     // Check authentication
     const checkAuth = () => {
         if (!currentUser) {
-            showLogin();
+            showLoginForm();
         } else {
             showDashboard();
         }
@@ -115,29 +118,14 @@ const SchoolMS = (() => {
         showLogin();
     };
     
-    // Show login page
-    const showLogin = () => {
-        console.log('showLogin called');
-        document.body.innerHTML = `
-            <div class="login-container">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-center mb-4">School Management System</h2>
-                        <form id="loginForm">
-                            <div class="mb-3">
-                                <label for="login-email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="login-email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="login-password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="login-password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        `;
+    // Show login form
+    const showLoginForm = () => {
+        console.log('showLoginForm called');
+        // The login form is already in the HTML, just make sure it's visible
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal) {
+            loginModal.style.display = 'block';
+        }
     };
     
     // Show dashboard
