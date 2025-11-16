@@ -81,7 +81,10 @@ function logout() {
 
 // Initialize default admin user if not exists
 function initializeDefaultUsers() {
+    // Load existing users from localStorage first
     const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+    
+    // If no users exist, create default admin
     if (existingUsers.length === 0) {
         const defaultAdmin = {
             id: 1,
@@ -95,6 +98,27 @@ function initializeDefaultUsers() {
         };
         users.push(defaultAdmin);
         saveData();
+    } else {
+        // Check if admin user exists, if not create it
+        const adminExists = existingUsers.some(u => u.email === 'admin@school.edu');
+        if (!adminExists) {
+            const defaultAdmin = {
+                id: Math.max(...existingUsers.map(u => u.id || 0), 0) + 1,
+                username: 'admin',
+                email: 'admin@school.edu',
+                password: hashPassword('admin123'),
+                role: ROLES.ADMIN,
+                firstName: 'Admin',
+                lastName: 'User',
+                createdAt: new Date().toISOString()
+            };
+            users.push(defaultAdmin);
+            saveData();
+        } else {
+            // Load existing users into the array
+            users.length = 0; // Clear array
+            users.push(...existingUsers);
+        }
     }
 }
 
@@ -1773,6 +1797,12 @@ function handleLogin(e) {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
     
+    // Make sure users are loaded
+    if (users.length === 0) {
+        loadData();
+        initializeDefaultUsers();
+    }
+    
     // Find user
     const user = users.find(u => u.email === email);
     
@@ -1789,17 +1819,22 @@ function handleLogin(e) {
         showAlert(`Welcome back, ${user.firstName}!`, 'success');
         showDashboardContent(document.getElementById('app-content'));
     } else {
-        showAlert('Invalid email or password', 'danger');
+        showAlert('Invalid email or password. Please check your credentials.', 'danger');
+        console.log('Login attempt failed. Users in system:', users.length);
+        console.log('Looking for email:', email);
     }
 }
 
 // ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', function() {
-    // Load data
+    // Load data first
     loadData();
     
-    // Initialize default users
+    // Then initialize default users (this will check if users exist and create admin if needed)
     initializeDefaultUsers();
+    
+    // Reload data after initialization to ensure users array is populated
+    loadData();
     
     // Check session
     const isLoggedIn = checkSession() && localStorage.getItem('isLoggedIn') === 'true';
