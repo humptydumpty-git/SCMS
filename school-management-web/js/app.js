@@ -7,9 +7,15 @@ const SchoolMS = (() => {
     
     // Initialize the application
     const init = () => {
-        loadData();
-        setupEventListeners();
-        checkAuth();
+        console.log('Initializing application...');
+        try {
+            loadData();
+            setupEventListeners();
+            checkAuth();
+            console.log('Application initialized successfully');
+        } catch (error) {
+            console.error('Error during initialization:', error);
+        }
     };
     
     // Load data from localStorage
@@ -60,34 +66,58 @@ const SchoolMS = (() => {
     
     // Handle login
     const handleLogin = (e) => {
+        console.log('Login attempt...');
         e.preventDefault();
+        
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        // Simple authentication (in a real app, validate against a server)
+        console.log('Login attempt with:', { email, password });
+        
+        // Hardcoded admin credentials
         if (email === 'admin@school.edu' && password === 'admin123') {
+            console.log('Login successful');
             currentUser = {
                 id: 1,
-                email: 'admin@school.edu',
                 name: 'Admin',
+                email: 'admin@school.edu',
                 role: 'admin'
             };
+            
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            console.log('User saved to localStorage');
+            
+            // Hide login modal
+            const loginModalEl = document.getElementById('loginModal');
+            const loginModal = bootstrap.Modal.getInstance(loginModalEl);
+            if (loginModal) {
+                loginModal.hide();
+                console.log('Login modal hidden');
+            } else {
+                console.warn('Login modal not found');
+            }
+            
+            // Show dashboard
+            console.log('Attempting to show dashboard...');
             showDashboard();
         } else {
+            console.log('Login failed: Invalid credentials');
             alert('Invalid credentials');
         }
     };
     
     // Handle logout
     const handleLogout = () => {
+        console.log('Logout attempt...');
         currentUser = null;
         localStorage.removeItem('currentUser');
+        console.log('User removed from localStorage');
         showLogin();
     };
     
     // Show login page
     const showLogin = () => {
+        console.log('showLogin called');
         document.body.innerHTML = `
             <div class="login-container">
                 <div class="card">
@@ -95,12 +125,12 @@ const SchoolMS = (() => {
                         <h2 class="text-center mb-4">School Management System</h2>
                         <form id="loginForm">
                             <div class="mb-3">
-                                <label for="loginEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="loginEmail" required>
+                                <label for="login-email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="login-email" required>
                             </div>
                             <div class="mb-3">
-                                <label for="loginPassword" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="loginPassword" required>
+                                <label for="login-password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="login-password" required>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Login</button>
                         </form>
@@ -112,40 +142,58 @@ const SchoolMS = (() => {
     
     // Show dashboard
     const showDashboard = () => {
-        document.body.innerHTML = `
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <div class="container">
-                    <a class="navbar-brand" href="#">SchoolMS</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#" data-page="dashboard">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" data-page="students">Students</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" data-page="fees">Fees</a>
-                            </li>
-                        </ul>
-                        <div class="d-flex">
-                            <button class="btn btn-outline-light" id="logoutBtn">Logout</button>
-                        </div>
-                    </div>
+        console.log('showDashboard called');
+        const appContent = document.getElementById('app-content');
+        if (!appContent) {
+            console.error('App content element not found');
+            return;
+        }
+        
+        // Check if user is logged in
+        if (!currentUser) {
+            console.log('No current user, redirecting to login');
+            showLogin();
+            return;
+        }
+        
+        console.log('Rendering dashboard for user:', currentUser);
+        
+        // Set active nav item
+        const navLinks = document.querySelectorAll('.nav-link');
+        console.log('Found nav links:', navLinks.length);
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#dashboard') {
+                link.classList.add('active');
+                console.log('Set active nav item: Dashboard');
+            }
+        });
+        
+        // Update page title
+        document.title = 'Dashboard | SchoolMS';
+        
+        // Render dashboard content
+        appContent.innerHTML = `
+            <div class="container mt-4">
+                <h2>Welcome, ${currentUser.name}!</h2>
+                <p>Email: ${currentUser.email}</p>
+                <p>Role: ${currentUser.role}</p>
+                <div class="row mt-4" id="dashboard-stats">
+                    <!-- Stats will be loaded here -->
                 </div>
-            </nav>
-            
-            <div class="container mt-4" id="content">
-                <!-- Content will be loaded here -->
             </div>
         `;
         
-        // Reattach event listeners
-        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
-        showPage('dashboard');
+        console.log('Dashboard content rendered');
+        
+        // Load dashboard content
+        const statsContainer = document.getElementById('dashboard-stats');
+        if (statsContainer) {
+            showDashboardContent(statsContainer);
+        } else {
+            console.error('Dashboard stats container not found');
+        }
     };
     
     // Show page based on route
