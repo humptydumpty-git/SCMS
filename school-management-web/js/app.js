@@ -45,26 +45,35 @@ const SchoolMS = (() => {
     
     // Setup event listeners
     const setupEventListeners = () => {
+        console.log('Setting up event listeners...');
+        
         // Login form
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', handleLogin);
+            console.log('Login form event listener added');
+        } else {
+            console.warn('Login form not found');
         }
         
-        // Logout button
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', handleLogout);
-        }
-        
-        // Navigation links
+        // Logout button (using event delegation since it might be dynamically added)
         document.addEventListener('click', (e) => {
-            if (e.target.matches('[data-page]')) {
+            if (e.target.matches('#logoutBtn, #logoutBtn *')) {
                 e.preventDefault();
-                const page = e.target.getAttribute('data-page');
+                handleLogout();
+            }
+            
+            // Navigation links
+            const navLink = e.target.closest('[data-page]');
+            if (navLink) {
+                e.preventDefault();
+                const page = navLink.getAttribute('data-page');
+                console.log('Navigation clicked:', page);
                 showPage(page);
             }
         });
+        
+        console.log('Event listeners setup complete');
     };
     
     // Handle login
@@ -199,21 +208,35 @@ const SchoolMS = (() => {
     
     // Show page based on route
     const showPage = (page) => {
-        const content = document.getElementById('content');
-        if (!content) return;
+        console.log('Showing page:', page);
+        const appContent = document.getElementById('app-content');
+        if (!appContent) {
+            console.error('App content container not found');
+            return;
+        }
         
+        // Update active nav item
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-page') === page) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Show the appropriate content
         switch (page) {
             case 'dashboard':
-                showDashboardContent(content);
+                showDashboard();
                 break;
             case 'students':
-                showStudentsContent(content);
+                showStudentsContent(appContent);
                 break;
             case 'fees':
-                showFeesContent(content);
+                showFeesContent(appContent);
                 break;
             default:
-                showDashboardContent(content);
+                showDashboard();
         }
     };
     
