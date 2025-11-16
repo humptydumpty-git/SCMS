@@ -19,6 +19,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Test DB Connection
 const testConnection = async () => {
   try {
@@ -78,14 +81,21 @@ const initializeApp = async () => {
   }
 };
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/fees', feeRoutes);
 
-// Basic route for testing
+// Serve portal page at root
 app.get('/', (req, res) => {
-  res.send('School Management System API is running...');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Serve frontend app (if frontend is built and served from backend)
+app.get('/app*', (req, res) => {
+  // This will be handled by the frontend if it's running separately
+  // Or you can serve the built frontend from here
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Error handling middleware
@@ -100,10 +110,15 @@ app.use((err, req, res, next) => {
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'API endpoint not found'
-  });
+  // If it's an API request, return JSON
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({
+      success: false,
+      message: 'API endpoint not found'
+    });
+  }
+  // Otherwise, return the portal page (for SPA routing)
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start the application

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System - Portal</title>
+    <link rel="stylesheet" href="/css/portal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="10" fill="#1976d2"/>
+                    <path d="M25 15L30 20H27V30H23V20H20L25 15Z" fill="white"/>
+                    <path d="M15 35H35V40H15V35Z" fill="white"/>
+                </svg>
+                <h1>School Management System</h1>
+            </div>
+            <p class="tagline">Comprehensive School Administration Portal</p>
+        </header>
+
+        <main class="main-content">
+            <div class="welcome-section">
+                <h2>Welcome to the School Management Portal</h2>
+                <p>Manage students, fees, users, and more from one centralized platform</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3>Student Management</h3>
+                    <p>Add, view, update, and manage student records with complete information</p>
+                    <a href="http://localhost:3000/students" target="_blank" class="card-link">Access Students →</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3>Fee Management</h3>
+                    <p>Track fee payments, generate reports, and manage financial records</p>
+                    <a href="http://localhost:3000/fees" target="_blank" class="card-link">Access Fees →</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3>User Management</h3>
+                    <p>Manage system users, roles, and permissions for staff members</p>
+                    <a href="http://localhost:3000/users" target="_blank" class="card-link">Access Users →</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="3" x2="9" y2="21"></line>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                        </svg>
+                    </div>
+                    <h3>Dashboard</h3>
+                    <p>View comprehensive statistics and analytics at a glance</p>
+                    <a href="http://localhost:3000/dashboard" target="_blank" class="card-link">View Dashboard →</a>
+                </div>
+            </div>
+
+            <div class="quick-access">
+                <h3>Quick Access</h3>
+                <div class="quick-links">
+                    <a href="http://localhost:3000" target="_blank" class="btn btn-primary">Go to Application</a>
+                    <a href="http://localhost:3000/login" target="_blank" class="btn btn-secondary">Login to System</a>
+                </div>
+                <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">
+                    <strong>Note:</strong> Make sure the frontend application is running on port 3000. 
+                    If it's running on a different port, update the links above.
+                </p>
+            </div>
+
+            <div class="info-section">
+                <div class="info-card">
+                    <h4>System Features</h4>
+                    <ul>
+                        <li>✓ Student Registration & Management</li>
+                        <li>✓ Fee Collection & Tracking</li>
+                        <li>✓ User Role Management</li>
+                        <li>✓ Comprehensive Reporting</li>
+                        <li>✓ Secure Authentication</li>
+                        <li>✓ Real-time Updates</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h4>System Status</h4>
+                    <div class="status-item">
+                        <span class="status-label">API Server:</span>
+                        <span class="status-value" id="apiStatus">Checking...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Database:</span>
+                        <span class="status-value" id="dbStatus">Checking...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Frontend:</span>
+                        <span class="status-value" id="frontendStatus">Checking...</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 School Management System. All rights reserved.</p>
+            <p>Version 1.0.0</p>
+        </footer>
+    </div>
+
+    <script>
+        // Check API status
+        fetch('/api/auth/me')
+            .then(response => {
+                document.getElementById('apiStatus').textContent = 'Online';
+                document.getElementById('apiStatus').className = 'status-value online';
+            })
+            .catch(() => {
+                document.getElementById('apiStatus').textContent = 'Offline';
+                document.getElementById('apiStatus').className = 'status-value offline';
+            });
+
+        // Check database status (via a simple API call)
+        fetch('/')
+            .then(() => {
+                document.getElementById('dbStatus').textContent = 'Connected';
+                document.getElementById('dbStatus').className = 'status-value online';
+            })
+            .catch(() => {
+                document.getElementById('dbStatus').textContent = 'Disconnected';
+                document.getElementById('dbStatus').className = 'status-value offline';
+            });
+
+        // Check frontend status
+        fetch('http://localhost:3000', { mode: 'no-cors' })
+            .then(() => {
+                document.getElementById('frontendStatus').textContent = 'Available';
+                document.getElementById('frontendStatus').className = 'status-value online';
+            })
+            .catch(() => {
+                // Try to check if frontend is accessible
+                fetch('http://localhost:3000', { method: 'HEAD', mode: 'no-cors' })
+                    .then(() => {
+                        document.getElementById('frontendStatus').textContent = 'Available';
+                        document.getElementById('frontendStatus').className = 'status-value online';
+                    })
+                    .catch(() => {
+                        document.getElementById('frontendStatus').textContent = 'Not Available';
+                        document.getElementById('frontendStatus').className = 'status-value offline';
+                    });
+            });
+    </script>
+</body>
+</html>
+
