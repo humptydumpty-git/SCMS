@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
-const { User, Student, Fee } = require('../models');
+const User = require('../models/User');
+const Student = require('../models/Student');
+const Fee = require('../models/Fee');
 const db = require('../config/db');
 
 const seedDatabase = async () => {

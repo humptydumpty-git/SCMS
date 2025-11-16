@@ -23,6 +23,6 @@ router.get('/statistics', isTeacherOrAbove, getStudentStatistics);
 router.route('/:id')
   .get(isTeacherOrAbove, getStudent)
   .put(isTeacherOrAbove, updateStudent)
-  .delete(verifyToken, isTeacherOrAbove, deleteStudent);
+  .delete(isTeacherOrAbove, deleteStudent);
 
 module.exports = router;

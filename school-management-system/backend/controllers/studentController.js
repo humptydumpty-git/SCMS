@@ -1,5 +1,6 @@
-const { Student, Fee } = require('../models');
-const { Op } = require('sequelize');
+const Student = require('../models/Student');
+const Fee = require('../models/Fee');
+const { Op, Sequelize } = require('sequelize');
 
 // @desc    Get all students with pagination and filters
 // @route   GET /api/students
@@ -23,7 +24,7 @@ exports.getStudents = async (req, res) => {
         { firstName: { [Op.like]: `%${search}%` } },
         { lastName: { [Op.like]: `%${search}%` } },
         { admissionNumber: { [Op.like]: `%${search}%` } },
-        { '$parentName$': { [Op.like]: `%${search}%` } }
+        { parentName: { [Op.like]: `%${search}%` } }
       ];
     }
     

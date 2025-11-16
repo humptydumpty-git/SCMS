@@ -1,5 +1,6 @@
-const { Fee, Student } = require('../models');
-const { Op } = require('sequelize');
+const Fee = require('../models/Fee');
+const Student = require('../models/Student');
+const { Op, Sequelize } = require('sequelize');
 
 // @desc    Get all fees with filters
 // @route   GET /api/fees
@@ -22,6 +23,7 @@ exports.getFees = async (req, res) => {
       include: [
         {
           model: Student,
+          as: 'student',
           attributes: ['id', 'admissionNumber', 'firstName', 'lastName', 'class', 'section']
         }
       ],
@@ -52,6 +54,7 @@ exports.getFee = async (req, res) => {
       include: [
         {
           model: Student,
+          as: 'student',
           attributes: ['id', 'admissionNumber', 'firstName', 'lastName', 'class', 'section']
         }
       ]
