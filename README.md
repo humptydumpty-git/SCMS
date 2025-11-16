@@ -1,0 +1,2 @@
+# SCMS
+School Management System
