@@ -1790,6 +1790,38 @@ window.navigateToPage = navigateToPage;
 window.editStudent = editStudent;
 window.deleteStudent = deleteStudent;
 
+// ==================== UI HELPERS ====================
+function updateUserDropdown() {
+    const currentUser = getCurrentUser();
+    const userDropdown = document.querySelector('#userDropdown');
+    if (userDropdown) {
+        if (currentUser) {
+            userDropdown.innerHTML = `<i class="fas fa-user-circle me-1"></i> ${currentUser.firstName} (${currentUser.role.toUpperCase()})`;
+        } else {
+            userDropdown.innerHTML = '<i class="fas fa-user-circle me-1"></i> Guest';
+        }
+    }
+}
+
+function enforceNavigationPermissions() {
+    const currentUser = getCurrentUser();
+    const navRules = [
+        { selector: '[data-page="students"]', permission: 'MANAGE_STUDENTS' },
+        { selector: '[data-page="fees"]', permission: 'MANAGE_FEES' },
+        { selector: '[data-page="users"]', permission: 'MANAGE_USERS' }
+    ];
+    
+    navRules.forEach(({ selector, permission }) => {
+        document.querySelectorAll(selector).forEach(el => {
+            if (!currentUser) {
+                el.style.removeProperty('display');
+            } else {
+                el.style.display = hasPermission(permission) ? '' : 'none';
+            }
+        });
+    });
+}
+
 // ==================== LOGIN ====================
 function handleLogin(e) {
     e.preventDefault();
@@ -1824,6 +1856,8 @@ function handleLogin(e) {
         // Remove password from user object before storing
         const { password: _, ...userWithoutPassword } = user;
         setCurrentUser(userWithoutPassword);
+        updateUserDropdown();
+        enforceNavigationPermissions();
         
         const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
         if (loginModal) loginModal.hide();
@@ -1859,13 +1893,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const isLoggedIn = checkSession() && localStorage.getItem('isLoggedIn') === 'true';
     
     // Update user display in navbar
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-        const userDropdown = document.querySelector('#userDropdown');
-        if (userDropdown) {
-            userDropdown.innerHTML = `<i class="fas fa-user-circle me-1"></i> ${currentUser.firstName} (${currentUser.role.toUpperCase()})`;
-        }
-    }
+    updateUserDropdown();
+    enforceNavigationPermissions();
     
     // Setup login form
     const loginForm = document.getElementById('loginForm');
