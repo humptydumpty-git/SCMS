@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Management System</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoI0KJ7N4Ckp1BY5nCT0I1f5nJe1z9ZOcev2Jk0WLa4d2Rm"
+        crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-pVI0HLLhcCq114F8CbnMD4HzyBbs6k8ZZrVSu2VvulaHYodEc/WWEDuJeayQMZT6ZX0xiqP/d9vywgqbiKFy+A=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -54,7 +63,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="display: none;">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -79,28 +88,34 @@
             <!-- Main content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div id="app-content" class="mt-4">
-                    <!-- Content will be loaded here by JavaScript -->
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="fas fa-circle-info me-2"></i>
+                        <div>Content will load automatically after you sign in.</div>
+                    </div>
                 </div>
             </main>
         </div>
     </div>
 
     <!-- Login Modal -->
-    <div class="modal show" id="loginModal" tabindex="-1" aria-hidden="false" data-bs-backdrop="static" style="display: block; background-color: rgba(0,0,0,0.5);">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true" aria-labelledby="loginModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Login to SchoolMS</h5>
+                    <h5 class="modal-title" id="loginModalLabel">Login to SchoolMS</h5>
                 </div>
                 <div class="modal-body">
-                    <form id="loginForm">
+                    <form id="loginForm" novalidate>
                         <div class="mb-3">
                             <label for="loginEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" required value="admin@school.edu">
+                            <input type="email" class="form-control" id="loginEmail" required placeholder="name@school.edu" autocomplete="username">
+                            <div class="form-text">Use your work email to sign in.</div>
+                            <div class="invalid-feedback">Please enter a valid email.</div>
                         </div>
                         <div class="mb-3">
                             <label for="loginPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" required value="admin123">
+                            <input type="password" class="form-control" id="loginPassword" required placeholder="••••••••" autocomplete="current-password" minlength="6">
+                            <div class="invalid-feedback">Password is required (min 6 characters).</div>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
@@ -112,9 +127,12 @@
     </div>
 
     <!-- JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+YFQ2Y5n47g8BXE6CkXbk7N0ANKyf"
+        crossorigin="anonymous"
+        defer></script>
     <!-- Custom JavaScript -->
-    <script src="js/app.js"></script>
+    <script src="js/app.js" defer></script>
 </body>
 </html>

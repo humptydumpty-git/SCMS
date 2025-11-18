@@ -1794,6 +1794,20 @@ window.deleteStudent = deleteStudent;
 function handleLogin(e) {
     e.preventDefault();
     
+    const form = e.currentTarget;
+    form.classList.add('was-validated');
+    if (!form.checkValidity()) {
+        showAlert('Please fix the highlighted fields.', 'warning');
+        return;
+    }
+    
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn?.innerHTML;
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...';
+    }
+    
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
     
@@ -1822,6 +1836,11 @@ function handleLogin(e) {
         showAlert('Invalid email or password. Please check your credentials.', 'danger');
         console.log('Login attempt failed. Users in system:', users.length);
         console.log('Looking for email:', email);
+    }
+    
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
     }
 }
 
