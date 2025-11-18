@@ -1822,6 +1822,36 @@ function enforceNavigationPermissions() {
     });
 }
 
+async function resetDemoData() {
+    if (!confirm('This will delete all locally stored data for this demo and restore the default admin account. Continue?')) {
+        return;
+    }
+    
+    try {
+        localStorage.clear();
+        fees = [];
+        students = [];
+        users = [];
+        attendance = [];
+        grades = [];
+        await saveData();
+        initializeDefaultUsers();
+        loadData();
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('sessionStart');
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.reset();
+            loginForm.classList.remove('was-validated');
+        }
+        showAlert('Demo data reset. Login with admin@school.edu / admin123.', 'success');
+    } catch (error) {
+        console.error('Failed to reset demo data:', error);
+        showAlert('Failed to reset demo data. Please refresh and try again.', 'danger');
+    }
+}
+
 // ==================== LOGIN ====================
 function handleLogin(e) {
     e.preventDefault();
@@ -1909,6 +1939,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
+    }
+    
+    const resetDemoBtn = document.getElementById('resetDemoBtn');
+    if (resetDemoBtn) {
+        resetDemoBtn.addEventListener('click', resetDemoData);
     }
     
     // Setup login modal
