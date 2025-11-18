@@ -1840,8 +1840,10 @@ function handleLogin(e) {
         submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...';
     }
     
-    const email = document.getElementById('loginEmail').value;
+
+    const emailInput = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
+    const normalizedEmail = emailInput.trim().toLowerCase();
     
     // Make sure users are loaded
     if (users.length === 0) {
@@ -1850,7 +1852,14 @@ function handleLogin(e) {
     }
     
     // Find user
-    const user = users.find(u => u.email === email);
+    let user = users.find(u => (u.email || '').toLowerCase() === normalizedEmail);
+    
+    // Auto-provision default admin if missing
+    if (!user && normalizedEmail === 'admin@school.edu') {
+        initializeDefaultUsers();
+        loadData();
+        user = users.find(u => (u.email || '').toLowerCase() === normalizedEmail);
+    }
     
     if (user && user.password === hashPassword(password)) {
         // Remove password from user object before storing
@@ -1869,7 +1878,7 @@ function handleLogin(e) {
     } else {
         showAlert('Invalid email or password. Please check your credentials.', 'danger');
         console.log('Login attempt failed. Users in system:', users.length);
-        console.log('Looking for email:', email);
+        console.log('Looking for email:', normalizedEmail);
     }
     
     if (submitBtn) {
