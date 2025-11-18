@@ -25,7 +25,7 @@
                 <p class="eyebrow">Signed in as</p>
                 <h3 id="sidebarUser">Guest</h3>
                 <p class="user-card__role" id="sidebarRole">Limited mode</p>
-                <span class="chip chip--warning">Restricted</span>
+                <span class="chip chip--warning" id="sidebarBadge">Restricted</span>
             </div>
             <nav class="nav">
                 <button class="nav__link active" data-module="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
@@ -181,6 +181,7 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const sidebarUser = document.getElementById('sidebarUser');
         const sidebarRole = document.getElementById('sidebarRole');
+        const sidebarBadge = document.getElementById('sidebarBadge');
         const sessionStatus = document.getElementById('sessionStatus');
         const userName = document.getElementById('userName');
         const userEmail = document.getElementById('userEmail');
@@ -638,6 +639,11 @@
             const isAuthenticated = Boolean(user);
             sidebarUser.textContent = isAuthenticated ? user.name : 'Guest';
             sidebarRole.textContent = isAuthenticated ? user.role : 'Limited mode';
+            if (sidebarBadge) {
+                sidebarBadge.textContent = isAuthenticated ? 'Full access' : 'Restricted';
+                sidebarBadge.classList.toggle('chip--success', isAuthenticated);
+                sidebarBadge.classList.toggle('chip--warning', !isAuthenticated);
+            }
             sessionStatus.classList.toggle('status-dot--online', isAuthenticated);
             sessionStatus.classList.toggle('status-dot--offline', !isAuthenticated);
             userName.textContent = isAuthenticated ? user.name : 'Guest user';
