@@ -233,6 +233,7 @@
                 renderer: renderInventory
             }
         };
+        let currentModule = 'dashboard';
 
         function renderDashboard() {
             const totalStudents = dataset.students.length;
@@ -325,7 +326,7 @@
                         </div>
                         <div class="card__actions">
                             <button class="btn btn--ghost btn--small" onclick="alert('CSV export coming soon')"><i class="fa-solid fa-file-export"></i> Export CSV</button>
-                            <button class="btn btn--primary btn--small" onclick="alert('Student onboarding flow is API driven in production')"><i class="fa-solid fa-plus"></i> Add student</button>
+                            <button class="btn btn--primary btn--small" onclick="openStudentForm()"><i class="fa-solid fa-plus"></i> Add student</button>
                         </div>
                     </header>
                     <div class="table-wrapper">
@@ -366,22 +367,33 @@
 
         function renderClassrooms() {
             return `
-                <div class="grid three-column">
-                    ${dataset.classrooms.map(room => `
-                        <article class="card classroom-card">
-                            <header>
-                                <h3>${room.name}</h3>
-                                <span class="chip">${room.focus}</span>
-                            </header>
-                            <ul class="meta">
-                                <li><i class="fa-solid fa-user-tie"></i> ${room.mentor}</li>
-                                <li><i class="fa-solid fa-clock"></i> ${room.schedule}</li>
-                                <li><i class="fa-solid fa-users"></i> ${room.occupancy}/${room.capacity} seats</li>
-                            </ul>
-                            <button class="btn btn--ghost btn--small" onclick="alert('Classroom insights are synced from the timetable service')">View timetable</button>
-                        </article>
-                    `).join('')}
-                </div>
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">Learning environments</p>
+                            <h3>Classroom management</h3>
+                        </div>
+                        <div class="card__actions">
+                            <button class="btn btn--primary btn--small" onclick="openClassroomForm()"><i class="fa-solid fa-plus"></i> New classroom</button>
+                        </div>
+                    </header>
+                    <div class="grid three-column mt-4">
+                        ${dataset.classrooms.map(room => `
+                            <article class="card classroom-card">
+                                <header>
+                                    <h3>${room.name}</h3>
+                                    <span class="chip">${room.focus}</span>
+                                </header>
+                                <ul class="meta">
+                                    <li><i class="fa-solid fa-user-tie"></i> ${room.mentor}</li>
+                                    <li><i class="fa-solid fa-clock"></i> ${room.schedule}</li>
+                                    <li><i class="fa-solid fa-users"></i> ${room.occupancy}/${room.capacity} seats</li>
+                                </ul>
+                                <button class="btn btn--ghost btn--small" onclick="alert('Classroom insights are synced from the timetable service')">View timetable</button>
+                            </article>
+                        `).join('')}
+                    </div>
+                </article>
             `;
         }
 
@@ -427,17 +439,26 @@
 
         function renderGallery() {
             return `
-                <div class="grid gallery-grid">
-                    ${dataset.gallery.map(item => `
-                        <figure class="gallery-card">
-                            <img src="${item.url}" alt="${item.title} photo">
-                            <figcaption>
-                                <h3>${item.title}</h3>
-                                <p>${item.date}</p>
-                            </figcaption>
-                        </figure>
-                    `).join('')}
-                </div>
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">School event gallery</p>
+                            <h3>Moments & showcases</h3>
+                        </div>
+                        <button class="btn btn--primary btn--small" onclick="openGalleryForm()"><i class="fa-solid fa-plus"></i> Add event</button>
+                    </header>
+                    <div class="grid gallery-grid mt-4">
+                        ${dataset.gallery.map(item => `
+                            <figure class="gallery-card">
+                                <img src="${item.url}" alt="${item.title} photo">
+                                <figcaption>
+                                    <h3>${item.title}</h3>
+                                    <p>${item.date}</p>
+                                </figcaption>
+                            </figure>
+                        `).join('')}
+                    </div>
+                </article>
             `;
         }
 
@@ -449,7 +470,10 @@
                             <p class="eyebrow">Finance operations</p>
                             <h3>Payroll run — January</h3>
                         </div>
-                        <button class="btn btn--ghost btn--small" onclick="alert('GL sync runs via secure webhook in production')"><i class="fa-solid fa-link"></i> Sync GL</button>
+                        <div class="card__actions">
+                            <button class="btn btn--ghost btn--small" onclick="alert('GL sync runs via secure webhook in production')"><i class="fa-solid fa-link"></i> Sync GL</button>
+                            <button class="btn btn--primary btn--small" onclick="openPayrollForm()"><i class="fa-solid fa-plus"></i> Add payroll</button>
+                        </div>
                     </header>
                     <div class="table-wrapper">
                         <table>
@@ -491,6 +515,7 @@
                         </div>
                         <div class="card__actions">
                             <button class="btn btn--ghost btn--small" onclick="alert('Reminder workflows use Twilio + SendGrid in production')"><i class="fa-solid fa-bell"></i> Trigger reminders</button>
+                            <button class="btn btn--primary btn--small" onclick="openFeeForm()"><i class="fa-solid fa-plus"></i> Record payment</button>
                         </div>
                     </header>
                     <div class="table-wrapper">
@@ -525,24 +550,33 @@
 
         function renderAttendance() {
             return `
-                <div class="grid two-column">
-                    ${dataset.attendance.map(record => {
-                        const total = record.present + record.absent;
-                        const rate = Math.round((record.present / total) * 100);
-                        return `
-                            <article class="card attendance-card">
-                                <header>
-                                    <p class="eyebrow">${record.cohort}</p>
-                                    <h3>${rate}% present</h3>
-                                </header>
-                                <div class="progress">
-                                    <div class="progress__bar" style="width:${rate}%"></div>
-                                </div>
-                                <p class="muted">${record.present} present • ${record.absent} absent</p>
-                            </article>
-                        `;
-                    }).join('')}
-                </div>
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">Realtime attendance</p>
+                            <h3>Cohort health</h3>
+                        </div>
+                        <button class="btn btn--primary btn--small" onclick="openAttendanceForm()"><i class="fa-solid fa-plus"></i> Log cohort</button>
+                    </header>
+                    <div class="grid two-column mt-4">
+                        ${dataset.attendance.map(record => {
+                            const total = record.present + record.absent;
+                            const rate = Math.round((record.present / total) * 100);
+                            return `
+                                <article class="card attendance-card">
+                                    <header>
+                                        <p class="eyebrow">${record.cohort}</p>
+                                        <h3>${rate}% present</h3>
+                                    </header>
+                                    <div class="progress">
+                                        <div class="progress__bar" style="width:${rate}%"></div>
+                                    </div>
+                                    <p class="muted">${record.present} present • ${record.absent} absent</p>
+                                </article>
+                            `;
+                        }).join('')}
+                    </div>
+                </article>
             `;
         }
 
@@ -610,7 +644,259 @@
             `;
         }
 
+        function generateId(prefix = 'ID') {
+            return `${prefix}-${Math.floor(1000 + Math.random() * 9000)}`;
+        }
+
+        function refreshModuleView() {
+            setActiveModule(currentModule);
+        }
+
+        function openStudentForm() {
+            openFormModal({
+                title: 'Add new student',
+                description: 'Capture core enrollment data for a learner.',
+                submitLabel: 'Save student',
+                fields: [
+                    { label: 'Full name', name: 'name', required: true, placeholder: 'Olivia Chen' },
+                    { label: 'Grade', name: 'grade', required: true, placeholder: 'Grade 10' },
+                    { label: 'Classroom', name: 'classroom', required: true, placeholder: 'Innovation Lab' },
+                    { label: 'Guardian name', name: 'guardian', placeholder: 'Victor Chen' },
+                    { label: 'Contact number', name: 'contact', placeholder: '+65 8123 0099' },
+                    { label: 'Status', name: 'status', type: 'select', required: true, options: [
+                        { label: 'Active', value: 'Active' },
+                        { label: 'Probation', value: 'Probation' },
+                        { label: 'Alumni', value: 'Alumni' }
+                    ]},
+                    { label: 'Attendance %', name: 'attendance', type: 'number', required: true, placeholder: '96' }
+                ],
+                onSubmit: (data, close) => {
+                    const attendance = Math.max(0, Math.min(100, Number(data.attendance) || 0));
+                    dataset.students.push({
+                        id: generateId('ST'),
+                        name: data.name,
+                        grade: data.grade,
+                        classroom: data.classroom,
+                        guardian: data.guardian || 'N/A',
+                        contact: data.contact || 'N/A',
+                        status: data.status || 'Active',
+                        attendance
+                    });
+                    close();
+                    showToast({ title: 'Student added', message: `${data.name} is now active.` });
+                    refreshModuleView();
+                }
+            });
+        }
+
+        function openClassroomForm() {
+            openFormModal({
+                title: 'New classroom',
+                description: 'Provision a classroom or learning lab.',
+                submitLabel: 'Create classroom',
+                fields: [
+                    { label: 'Classroom name', name: 'name', required: true, placeholder: 'AI Studio' },
+                    { label: 'Lead mentor', name: 'mentor', required: true, placeholder: 'Dr. Grace Mensah' },
+                    { label: 'Capacity', name: 'capacity', type: 'number', required: true, placeholder: '25' },
+                    { label: 'Schedule', name: 'schedule', required: true, placeholder: 'Mon - Fri • 09:00 - 14:00' },
+                    { label: 'Focus area', name: 'focus', required: true, placeholder: 'Applied AI & Data' }
+                ],
+                onSubmit: (data, close) => {
+                    dataset.classrooms.push({
+                        name: data.name,
+                        mentor: data.mentor,
+                        capacity: Number(data.capacity) || 0,
+                        occupancy: 0,
+                        schedule: data.schedule,
+                        focus: data.focus
+                    });
+                    close();
+                    showToast({ title: 'Classroom created', message: `${data.name} is ready for scheduling.` });
+                    refreshModuleView();
+                }
+            });
+        }
+
+        function openFeeForm() {
+            openFormModal({
+                title: 'Record fee payment',
+                description: 'Log tuition or ancillary fee collections.',
+                submitLabel: 'Record payment',
+                fields: [
+                    { label: 'Student name', name: 'student', required: true, placeholder: 'Amina Hassan' },
+                    { label: 'Amount (USD)', name: 'amount', type: 'number', required: true, placeholder: '450' },
+                    { label: 'Due date', name: 'due', type: 'date', required: true },
+                    { label: 'Channel', name: 'channel', type: 'select', required: true, options: [
+                        { label: 'Portal', value: 'Portal' },
+                        { label: 'Bank Transfer', value: 'Bank Transfer' },
+                        { label: 'Cashier', value: 'Cashier' }
+                    ]},
+                    { label: 'Status', name: 'status', type: 'select', required: true, options: [
+                        { label: 'Paid', value: 'Paid' },
+                        { label: 'Pending', value: 'Pending' },
+                        { label: 'Overdue', value: 'Overdue' }
+                    ]}
+                ],
+                onSubmit: (data, close) => {
+                    const invoiceSuffix = Date.now().toString().slice(-4);
+                    dataset.fees.unshift({
+                        invoice: `#INV-${invoiceSuffix}`,
+                        student: data.student,
+                        amount: Number(data.amount) || 0,
+                        due: data.due,
+                        status: data.status,
+                        channel: data.channel
+                    });
+                    close();
+                    showToast({ title: 'Fee logged', message: `Invoice created for ${data.student}.` });
+                    refreshModuleView();
+                }
+            });
+        }
+
+        function openPayrollForm() {
+            openFormModal({
+                title: 'Add payroll entry',
+                description: 'Capture staff compensation for the current run.',
+                submitLabel: 'Save payroll',
+                fields: [
+                    { label: 'Employee name', name: 'employee', required: true, placeholder: 'Dr. Grace Mensah' },
+                    { label: 'Role', name: 'role', required: true, placeholder: 'Senior STEM Teacher' },
+                    { label: 'Period', name: 'period', required: true, placeholder: 'Feb 2025' },
+                    { label: 'Amount (USD)', name: 'amount', type: 'number', required: true, placeholder: '3800' },
+                    { label: 'Status', name: 'status', type: 'select', required: true, options: [
+                        { label: 'Cleared', value: 'Cleared' },
+                        { label: 'Processing', value: 'Processing' },
+                        { label: 'On Hold', value: 'On Hold' }
+                    ]},
+                    { label: 'Method', name: 'method', type: 'select', required: true, options: [
+                        { label: 'ACH', value: 'ACH' },
+                        { label: 'Wire', value: 'Wire' },
+                        { label: 'Cash', value: 'Cash' }
+                    ]}
+                ],
+                onSubmit: (data, close) => {
+                    dataset.payroll.unshift({
+                        employee: data.employee,
+                        role: data.role,
+                        period: data.period,
+                        amount: Number(data.amount) || 0,
+                        status: data.status,
+                        method: data.method
+                    });
+                    close();
+                    showToast({ title: 'Payroll saved', message: `${data.employee} scheduled for ${data.period}.` });
+                    refreshModuleView();
+                }
+            });
+        }
+
+        function openAttendanceForm() {
+            openFormModal({
+                title: 'Log attendance cohort',
+                description: 'Update biometric attendance for a cohort.',
+                submitLabel: 'Save snapshot',
+                fields: [
+                    { label: 'Cohort name', name: 'cohort', required: true, placeholder: 'STEM Seniors' },
+                    { label: 'Present count', name: 'present', type: 'number', required: true, placeholder: '120' },
+                    { label: 'Absent count', name: 'absent', type: 'number', required: true, placeholder: '5' }
+                ],
+                onSubmit: (data, close) => {
+                    dataset.attendance.unshift({
+                        cohort: data.cohort,
+                        present: Number(data.present) || 0,
+                        absent: Number(data.absent) || 0
+                    });
+                    close();
+                    showToast({ title: 'Attendance updated', message: `${data.cohort} snapshot stored.` });
+                    refreshModuleView();
+                }
+            });
+        }
+
+        function openGalleryForm() {
+            openFormModal({
+                title: 'Add gallery highlight',
+                description: 'Spotlight a campus event or showcase.',
+                submitLabel: 'Add to gallery',
+                fields: [
+                    { label: 'Event title', name: 'title', required: true, placeholder: 'Innovation Fair' },
+                    { label: 'Event date', name: 'date', type: 'date', required: true },
+                    { label: 'Image URL', name: 'url', required: true, placeholder: 'https://images.unsplash.com/...' }
+                ],
+                onSubmit: (data, close) => {
+                    dataset.gallery.unshift({
+                        id: Date.now(),
+                        title: data.title,
+                        date: data.date,
+                        url: data.url
+                    });
+                    close();
+                    showToast({ title: 'Event published', message: `${data.title} added to gallery.` });
+                    refreshModuleView();
+                }
+            });
+        }
+
+        function openFormModal({ title, description = '', fields = [], submitLabel = 'Save', onSubmit }) {
+            const overlay = document.createElement('section');
+            overlay.className = 'form-modal';
+            overlay.innerHTML = `
+                <div class="form-modal__card">
+                    <header>
+                        <h3>${title}</h3>
+                        <button class="form-modal__close" aria-label="Close dialog">&times;</button>
+                    </header>
+                    ${description ? `<p class="muted">${description}</p>` : ''}
+                    <form class="form-modal__form">
+                        ${fields.map(field => `
+                            <label>
+                                <span>${field.label}${field.required ? ' *' : ''}</span>
+                                ${renderField(field)}
+                            </label>
+                        `).join('')}
+                        <div class="form-actions">
+                            <button type="button" class="btn btn--ghost">Cancel</button>
+                            <button type="submit" class="btn btn--primary">${submitLabel}</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            function renderField(field) {
+                const attrs = `name="${field.name}" ${field.required ? 'required' : ''}`;
+                if (field.type === 'select') {
+                    return `
+                        <select ${attrs}>
+                            ${field.options?.map(option => `<option value="${option.value}">${option.label}</option>`).join('')}
+                        </select>
+                    `;
+                }
+                if (field.type === 'textarea') {
+                    return `<textarea ${attrs} placeholder="${field.placeholder || ''}"></textarea>`;
+                }
+                return `<input type="${field.type || 'text'}" ${attrs} placeholder="${field.placeholder || ''}">`;
+            }
+
+            document.body.appendChild(overlay);
+            const close = () => overlay.remove();
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) close();
+            });
+            overlay.querySelector('.form-modal__close').addEventListener('click', close);
+            const form = overlay.querySelector('form');
+            const cancelBtn = overlay.querySelector('.form-actions .btn--ghost');
+            cancelBtn.addEventListener('click', close);
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                onSubmit(data, close);
+            });
+        }
+
         function setActiveModule(moduleKey) {
+            currentModule = moduleKey;
             const module = moduleMap[moduleKey] || moduleMap.dashboard;
             moduleLabel.textContent = module.label;
             moduleRoot.innerHTML = module.renderer();

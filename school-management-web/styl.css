@@ -546,6 +546,78 @@ tr:last-child td {
     color: var(--danger);
 }
 
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.form-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 30;
+}
+
+.form-modal__card {
+    background: var(--surface);
+    color: var(--text);
+    width: 100%;
+    max-width: 480px;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.form-modal__card header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.form-modal__close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.form-modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.form-modal__form label span {
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    display: block;
+}
+
+.form-modal__form input,
+.form-modal__form select,
+.form-modal__form textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+}
+
+.form-modal__form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
 @keyframes toast-in {
     from {
         opacity: 0;
