@@ -3,139 +3,719 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Management System</title>
-    <!-- Bootstrap CSS -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-        crossorigin="anonymous">
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <title>CloudSchool | Intelligent School Management</title>
+    <meta name="description" content="Cloud-ready School Management System covering students, classrooms, payroll, finance, and transport.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="styl.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">SchoolMS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto" id="mainNav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" data-page="dashboard"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="students"><i class="fas fa-user-graduate me-1"></i> Students</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="fees"><i class="fas fa-money-bill-wave me-1"></i> Fees</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="users"><i class="fas fa-users me-1"></i> Users</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle me-1"></i> Admin
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#" data-page="profile"><i class="fas fa-user me-2"></i>Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                        </ul>
-                    </div>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand__logo">CS</div>
+                <div>
+                    <p class="brand__title">CloudSchool</p>
+                    <span class="brand__tagline">Trusted campus cloud</span>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" data-page="dashboard">
-                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-page="students">
-                                <i class="fas fa-user-graduate me-2"></i> Students
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-page="fees">
-                                <i class="fas fa-money-bill-wave me-2"></i> Fees
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="user-card">
+                <p class="eyebrow">Signed in as</p>
+                <h3 id="sidebarUser">Guest</h3>
+                <p class="user-card__role" id="sidebarRole">Limited mode</p>
+                <span class="chip chip--warning">Restricted</span>
+            </div>
+            <nav class="nav">
+                <button class="nav__link active" data-module="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+                <button class="nav__link" data-module="students"><i class="fa-solid fa-user-graduate"></i> Student Information</button>
+                <button class="nav__link" data-module="classrooms"><i class="fa-solid fa-chalkboard-user"></i> Classroom Management</button>
+                <button class="nav__link" data-module="grades"><i class="fa-solid fa-graduation-cap"></i> Grade Reporting</button>
+                <button class="nav__link" data-module="gallery"><i class="fa-solid fa-image"></i> Event Gallery</button>
+                <button class="nav__link" data-module="payroll"><i class="fa-solid fa-wallet"></i> School Payroll</button>
+                <button class="nav__link" data-module="fees"><i class="fa-solid fa-receipt"></i> Fee Management</button>
+                <button class="nav__link" data-module="attendance"><i class="fa-solid fa-user-check"></i> Attendance</button>
+                <button class="nav__link" data-module="transport"><i class="fa-solid fa-bus"></i> Transport</button>
+                <button class="nav__link" data-module="inventory"><i class="fa-solid fa-boxes-stacked"></i> Inventory</button>
             </nav>
+            <div class="sidebar__footer">
+                <p>Cloud-hosted in ISO 27001 certified regions.</p>
+                <button class="btn btn--ghost" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out</button>
+            </div>
+        </aside>
 
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div id="app-content" class="mt-4">
-                    <div class="alert alert-info d-flex align-items-center" role="alert">
-                        <i class="fas fa-circle-info me-2"></i>
-                        <div>Content will load automatically after you sign in.</div>
+        <main class="main-panel">
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div>
+                    <p class="eyebrow">Active module</p>
+                    <h1 id="moduleLabel">Strategic Dashboard</h1>
+                </div>
+                <div class="top-bar__actions">
+                    <form class="search" role="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Search students, routes, invoices…" aria-label="Search CloudSchool data">
+                    </form>
+                    <button class="btn btn--ghost" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <div class="user-pill">
+                        <span class="status-dot status-dot--offline" id="sessionStatus"></span>
+                        <div>
+                            <strong id="userName">Guest user</strong>
+                            <small id="userEmail">Restricted preview</small>
+                        </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </header>
+
+            <section id="moduleRoot" class="module-root" aria-live="polite"></section>
+        </main>
     </div>
 
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true" aria-labelledby="loginModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login to SchoolMS</h5>
-                </div>
-                <div class="modal-body">
-                    <form id="loginForm" novalidate>
-                        <div class="mb-3">
-                            <label for="loginEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" required placeholder="name@school.edu" autocomplete="username">
-                            <div class="form-text">Use your work email to sign in.</div>
-                            <div class="invalid-feedback">Please enter a valid email.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="loginPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" required placeholder="••••••••" autocomplete="current-password" minlength="6">
-                            <div class="invalid-feedback">Password is required (min 6 characters).</div>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                            <button type="button" class="btn btn-outline-secondary mt-2" id="resetDemoBtn">
-                                Reset demo data
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <section class="security-panel" id="securityPanel" aria-label="Secure login overlay">
+        <form class="security-card" id="accessForm" autocomplete="off">
+            <div>
+                <p class="eyebrow text-primary">Cloud perimeter</p>
+                <h2>Authenticate to unlock the console</h2>
+                <p class="muted">Multi-tenant ready, zero-trust enforced. This demo uses role-based governance similar to the production stack hosted in Azure + AWS.</p>
             </div>
-        </div>
-    </div>
+            <label>
+                <span>Email address</span>
+                <input type="email" id="accessEmail" required placeholder="admin@cloudschool.edu" autocomplete="username">
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" id="accessPassword" required placeholder="••••••••" autocomplete="current-password" minlength="8">
+            </label>
+            <div class="form-actions">
+                <button class="btn btn--primary" type="submit">Authenticate</button>
+                <button class="btn btn--ghost" type="button" id="resetStorageBtn">Reset demo data</button>
+            </div>
+            <p class="muted text-center">Demo credentials — Email: <strong>admin@cloudschool.edu</strong>, Password: <strong>School@2025</strong></p>
+        </form>
+    </section>
 
-    <!-- JavaScript Libraries -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"
-        defer></script>
-    <!-- Custom JavaScript -->
-    <script src="js/app.js" defer></script>
+    <template id="toastTemplate">
+        <div class="toast" role="alert" aria-live="assertive">
+            <span class="toast__icon"><i class="fa-solid fa-circle-info"></i></span>
+            <div class="toast__body">
+                <strong class="toast__title">Notice</strong>
+                <p class="toast__message">Demo message</p>
+            </div>
+            <button class="toast__close" aria-label="Dismiss notification">&times;</button>
+        </div>
+    </template>
+
+    <script type="module">
+        const ADMIN_EMAIL = 'admin@cloudschool.edu';
+        const ADMIN_PASSWORD = 'School@2025';
+        const SESSION_KEY = 'cloudschool-session';
+        const THEME_KEY = 'cloudschool-theme';
+
+        const dataset = {
+            students: [
+                { id: 'ST-1012', name: 'Amina Hassan', grade: 'Grade 9', classroom: 'STEM 1', guardian: 'Hassan Ibrahim', contact: '+234 803 555 9234', status: 'Active', attendance: 98 },
+                { id: 'ST-1044', name: 'Luca Venturi', grade: 'Grade 11', classroom: 'Business Leadership', guardian: 'Emma Venturi', contact: '+39 312 501 8721', status: 'Active', attendance: 95 },
+                { id: 'ST-0895', name: 'Olivia Chen', grade: 'Grade 10', classroom: 'Innovation Lab', guardian: 'Victor Chen', contact: '+65 8123 0099', status: 'Probation', attendance: 88 },
+                { id: 'ST-0771', name: 'Gabriel Müller', grade: 'Grade 8', classroom: 'Creative Arts', guardian: 'Anna Müller', contact: '+49 151 2233 1122', status: 'Active', attendance: 97 }
+            ],
+            classrooms: [
+                { name: 'STEM 1', mentor: 'Dr. Grace Mensah', capacity: 30, occupancy: 27, schedule: 'Mon - Fri • 08:00 - 13:00', focus: 'Robotics & Applied Physics' },
+                { name: 'Innovation Lab', mentor: 'Engr. Rahul Iyer', capacity: 28, occupancy: 24, schedule: 'Mon - Thu • 12:00 - 16:00', focus: 'Design Thinking & Startups' },
+                { name: 'Creative Arts', mentor: 'Mrs. Kemi Adeoye', capacity: 25, occupancy: 23, schedule: 'Tue - Fri • 09:00 - 15:00', focus: 'Performing Arts & Media' }
+            ],
+            grades: [
+                { student: 'Amina Hassan', course: 'Mathematics', term: 'Q2', score: 93, letter: 'A', trend: '+2%' },
+                { student: 'Luca Venturi', course: 'Economics', term: 'Q2', score: 89, letter: 'A-', trend: '+1%' },
+                { student: 'Olivia Chen', course: 'Design Thinking', term: 'Q2', score: 76, letter: 'C+', trend: '-3%' },
+                { student: 'Gabriel Müller', course: 'Music Theory', term: 'Q2', score: 95, letter: 'A', trend: '+4%' }
+            ],
+            gallery: [
+                { id: 1, title: 'Robotics Expo', date: 'Jan 18, 2025', url: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=1200&q=80' },
+                { id: 2, title: 'Design Sprint', date: 'Feb 02, 2025', url: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=80' },
+                { id: 3, title: 'Creative Arts Night', date: 'Dec 11, 2024', url: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80' },
+                { id: 4, title: 'Green Campus Drive', date: 'Nov 27, 2024', url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80' }
+            ],
+            payroll: [
+                { employee: 'Dr. Grace Mensah', role: 'Senior STEM Teacher', amount: 3800, status: 'Cleared', method: 'ACH', period: 'Jan 2025' },
+                { employee: 'Engr. Rahul Iyer', role: 'Innovation Director', amount: 4200, status: 'Processing', method: 'Wire', period: 'Jan 2025' },
+                { employee: 'Mrs. Kemi Adeoye', role: 'Creative Arts Lead', amount: 3100, status: 'Cleared', method: 'ACH', period: 'Jan 2025' }
+            ],
+            fees: [
+                { invoice: '#INV-8721', student: 'Amina Hassan', amount: 450, due: '2025-02-10', status: 'Paid', channel: 'Portal' },
+                { invoice: '#INV-8729', student: 'Olivia Chen', amount: 520, due: '2025-02-12', status: 'Pending', channel: 'Bank Transfer' },
+                { invoice: '#INV-8750', student: 'Gabriel Müller', amount: 480, due: '2025-02-15', status: 'Overdue', channel: 'Cashier' }
+            ],
+            attendance: [
+                { cohort: 'Junior School', present: 412, absent: 18 },
+                { cohort: 'Senior School', present: 388, absent: 22 },
+                { cohort: 'Boarding Students', present: 246, absent: 4 }
+            ],
+            transport: [
+                { route: 'North Loop', driver: 'Samuel Opoku', bus: 'Bus 7', seats: 48, filled: 44, departure: '06:30', eta: '07:25', status: 'On time' },
+                { route: 'Harbor Express', driver: 'Fatima Noor', bus: 'Bus 4', seats: 40, filled: 38, departure: '06:45', eta: '07:35', status: 'Delayed 5m' },
+                { route: 'Innovation Hub Shuttle', driver: 'Miguel Reyes', bus: 'EV 2', seats: 32, filled: 29, departure: '08:15', eta: '08:35', status: 'Boarding' }
+            ],
+            inventory: [
+                { item: 'Chromebooks', category: 'ICT', quantity: 120, threshold: 20, status: 'In use', lastAudit: '2025-01-05' },
+                { item: '3D Printers', category: 'Makerspace', quantity: 12, threshold: 4, status: 'Maintenance', lastAudit: '2025-01-18' },
+                { item: 'Lab Safety Kits', category: 'Science', quantity: 85, threshold: 30, status: 'Reorder', lastAudit: '2024-12-22' }
+            ],
+            events: [
+                { title: 'STEM Robotics Expo', owner: 'STEM Faculty', schedule: 'Jan 24, 2025', location: 'Innovation Dome' },
+                { title: 'Creative Arts Night', owner: 'Arts Department', schedule: 'Feb 14, 2025', location: 'Auditorium' },
+                { title: 'Wellness Week', owner: 'Student Affairs', schedule: 'Mar 03, 2025', location: 'Campus-wide' }
+            ]
+        };
+
+        const moduleRoot = document.getElementById('moduleRoot');
+        const moduleLabel = document.getElementById('moduleLabel');
+        const navButtons = document.querySelectorAll('[data-module]');
+        const securityPanel = document.getElementById('securityPanel');
+        const accessForm = document.getElementById('accessForm');
+        const resetStorageBtn = document.getElementById('resetStorageBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const sidebarUser = document.getElementById('sidebarUser');
+        const sidebarRole = document.getElementById('sidebarRole');
+        const sessionStatus = document.getElementById('sessionStatus');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const themeToggle = document.getElementById('themeToggle');
+
+        const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+        const moduleMap = {
+            dashboard: {
+                label: 'Strategic Dashboard',
+                renderer: renderDashboard
+            },
+            students: {
+                label: 'Student Information System',
+                renderer: renderStudents
+            },
+            classrooms: {
+                label: 'Classroom Management',
+                renderer: renderClassrooms
+            },
+            grades: {
+                label: 'Grade Reporting',
+                renderer: renderGrades
+            },
+            gallery: {
+                label: 'School Event Gallery',
+                renderer: renderGallery
+            },
+            payroll: {
+                label: 'School Payroll',
+                renderer: renderPayroll
+            },
+            fees: {
+                label: 'Fee Management System',
+                renderer: renderFees
+            },
+            attendance: {
+                label: 'Student Attendance',
+                renderer: renderAttendance
+            },
+            transport: {
+                label: 'Transport Management',
+                renderer: renderTransport
+            },
+            inventory: {
+                label: 'School Inventory',
+                renderer: renderInventory
+            }
+        };
+
+        function renderDashboard() {
+            const totalStudents = dataset.students.length;
+            const avgAttendance = Math.round(dataset.students.reduce((sum, s) => sum + s.attendance, 0) / totalStudents);
+            const outstandingFees = dataset.fees.filter(fee => fee.status !== 'Paid').reduce((sum, fee) => sum + fee.amount, 0);
+            const fleetOccupancy = Math.round(dataset.transport.reduce((sum, route) => sum + (route.filled / route.seats) * 100, 0) / dataset.transport.length);
+
+            return `
+                <div class="grid stats-grid">
+                    <article class="card stat-card">
+                        <p class="eyebrow">Enrollment</p>
+                        <h2>${totalStudents}</h2>
+                        <p class="muted">Active students across divisions</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="eyebrow">Attendance (rolling)</p>
+                        <h2>${avgAttendance}%</h2>
+                        <p class="muted">Powered by biometric gates</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="eyebrow">Outstanding fees</p>
+                        <h2>${currency.format(outstandingFees)}</h2>
+                        <p class="muted">Auto-escalations enabled</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="eyebrow">Fleet occupancy</p>
+                        <h2>${fleetOccupancy}%</h2>
+                        <p class="muted">Smart routing + EV telemetry</p>
+                    </article>
+                </div>
+
+                <div class="grid two-column">
+                    <article class="card">
+                        <header class="card__header">
+                            <div>
+                                <p class="eyebrow">Critical watchers</p>
+                                <h3>Upcoming governance tasks</h3>
+                            </div>
+                            <button class="btn btn--ghost btn--small" onclick="window.print()">Export</button>
+                        </header>
+                        <ul class="list">
+                            ${dataset.events.map(event => `
+                                <li class="list__item">
+                                    <div>
+                                        <h4>${event.title}</h4>
+                                        <p class="muted">${event.schedule} • ${event.location}</p>
+                                    </div>
+                                    <span class="chip">${event.owner}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <header class="card__header">
+                            <div>
+                                <p class="eyebrow">Security posture</p>
+                                <h3>Zero-trust checkpoints</h3>
+                            </div>
+                        </header>
+                        <div class="security-grid">
+                            <div>
+                                <p class="muted">SSO uptime</p>
+                                <h2>99.995%</h2>
+                            </div>
+                            <div>
+                                <p class="muted">Policy audits</p>
+                                <h2>100% compliant</h2>
+                            </div>
+                            <div>
+                                <p class="muted">Backup verification</p>
+                                <h2>12 min RPO</h2>
+                            </div>
+                            <div>
+                                <p class="muted">Data residency</p>
+                                <h2>EU • US • Africa</h2>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            `;
+        }
+
+        function renderStudents() {
+            return `
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">Student directory</p>
+                            <h3>Profiles & guardianship</h3>
+                        </div>
+                        <div class="card__actions">
+                            <button class="btn btn--ghost btn--small" onclick="alert('CSV export coming soon')"><i class="fa-solid fa-file-export"></i> Export CSV</button>
+                            <button class="btn btn--primary btn--small" onclick="alert('Student onboarding flow is API driven in production')"><i class="fa-solid fa-plus"></i> Add student</button>
+                        </div>
+                    </header>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Student</th>
+                                    <th>Grade</th>
+                                    <th>Classroom</th>
+                                    <th>Guardian</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${dataset.students.map(student => `
+                                    <tr>
+                                        <td>${student.id}</td>
+                                        <td>
+                                            <strong>${student.name}</strong>
+                                        </td>
+                                        <td>${student.grade}</td>
+                                        <td>${student.classroom}</td>
+                                        <td>${student.guardian}</td>
+                                        <td>${student.contact}</td>
+                                        <td><span class="chip ${student.status === 'Active' ? 'chip--success' : student.status === 'Probation' ? 'chip--warning' : ''}">${student.status}</span></td>
+                                        <td>${student.attendance}%</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderClassrooms() {
+            return `
+                <div class="grid three-column">
+                    ${dataset.classrooms.map(room => `
+                        <article class="card classroom-card">
+                            <header>
+                                <h3>${room.name}</h3>
+                                <span class="chip">${room.focus}</span>
+                            </header>
+                            <ul class="meta">
+                                <li><i class="fa-solid fa-user-tie"></i> ${room.mentor}</li>
+                                <li><i class="fa-solid fa-clock"></i> ${room.schedule}</li>
+                                <li><i class="fa-solid fa-users"></i> ${room.occupancy}/${room.capacity} seats</li>
+                            </ul>
+                            <button class="btn btn--ghost btn--small" onclick="alert('Classroom insights are synced from the timetable service')">View timetable</button>
+                        </article>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderGrades() {
+            return `
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">Quarterly snapshot</p>
+                            <h3>Grade reporting</h3>
+                        </div>
+                        <button class="btn btn--ghost btn--small" onclick="alert('Secure PDF export available in enterprise tier')"><i class="fa-solid fa-file-shield"></i> Secure export</button>
+                    </header>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Course</th>
+                                    <th>Term</th>
+                                    <th>Score</th>
+                                    <th>Letter</th>
+                                    <th>Trend</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${dataset.grades.map(entry => `
+                                    <tr>
+                                        <td>${entry.student}</td>
+                                        <td>${entry.course}</td>
+                                        <td>${entry.term}</td>
+                                        <td>${entry.score}%</td>
+                                        <td><strong>${entry.letter}</strong></td>
+                                        <td class="${entry.trend.startsWith('-') ? 'text-danger' : 'text-success'}">${entry.trend}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderGallery() {
+            return `
+                <div class="grid gallery-grid">
+                    ${dataset.gallery.map(item => `
+                        <figure class="gallery-card">
+                            <img src="${item.url}" alt="${item.title} photo">
+                            <figcaption>
+                                <h3>${item.title}</h3>
+                                <p>${item.date}</p>
+                            </figcaption>
+                        </figure>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderPayroll() {
+            return `
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">Finance operations</p>
+                            <h3>Payroll run — January</h3>
+                        </div>
+                        <button class="btn btn--ghost btn--small" onclick="alert('GL sync runs via secure webhook in production')"><i class="fa-solid fa-link"></i> Sync GL</button>
+                    </header>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Role</th>
+                                    <th>Period</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Method</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${dataset.payroll.map(item => `
+                                    <tr>
+                                        <td>${item.employee}</td>
+                                        <td>${item.role}</td>
+                                        <td>${item.period}</td>
+                                        <td>${currency.format(item.amount)}</td>
+                                        <td><span class="chip ${item.status === 'Cleared' ? 'chip--success' : 'chip--warning'}">${item.status}</span></td>
+                                        <td>${item.method}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderFees() {
+            return `
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">Collections</p>
+                            <h3>Fee management</h3>
+                        </div>
+                        <div class="card__actions">
+                            <button class="btn btn--ghost btn--small" onclick="alert('Reminder workflows use Twilio + SendGrid in production')"><i class="fa-solid fa-bell"></i> Trigger reminders</button>
+                        </div>
+                    </header>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Student</th>
+                                    <th>Amount</th>
+                                    <th>Due</th>
+                                    <th>Status</th>
+                                    <th>Channel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${dataset.fees.map(item => `
+                                    <tr>
+                                        <td>${item.invoice}</td>
+                                        <td>${item.student}</td>
+                                        <td>${currency.format(item.amount)}</td>
+                                        <td>${item.due}</td>
+                                        <td><span class="chip ${item.status === 'Paid' ? 'chip--success' : item.status === 'Pending' ? 'chip--warning' : 'chip--danger'}">${item.status}</span></td>
+                                        <td>${item.channel}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderAttendance() {
+            return `
+                <div class="grid two-column">
+                    ${dataset.attendance.map(record => {
+                        const total = record.present + record.absent;
+                        const rate = Math.round((record.present / total) * 100);
+                        return `
+                            <article class="card attendance-card">
+                                <header>
+                                    <p class="eyebrow">${record.cohort}</p>
+                                    <h3>${rate}% present</h3>
+                                </header>
+                                <div class="progress">
+                                    <div class="progress__bar" style="width:${rate}%"></div>
+                                </div>
+                                <p class="muted">${record.present} present • ${record.absent} absent</p>
+                            </article>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderTransport() {
+            return `
+                <div class="grid two-column">
+                    ${dataset.transport.map(route => {
+                        const load = Math.round((route.filled / route.seats) * 100);
+                        return `
+                            <article class="card transport-card">
+                                <header>
+                                    <h3>${route.route}</h3>
+                                    <span class="chip ${route.status.includes('Delayed') ? 'chip--warning' : route.status.includes('Boarding') ? 'chip--info' : 'chip--success'}">${route.status}</span>
+                                </header>
+                                <ul class="meta">
+                                    <li><i class="fa-solid fa-user-tie"></i> ${route.driver}</li>
+                                    <li><i class="fa-solid fa-bus"></i> ${route.bus} • ${route.filled}/${route.seats} seats (${load}%)</li>
+                                    <li><i class="fa-solid fa-route"></i> Departs ${route.departure} • ETA ${route.eta}</li>
+                                </ul>
+                                <button class="btn btn--ghost btn--small" onclick="alert('Live telemetry runs via IoT Hub in production')">Live telemetry</button>
+                            </article>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderInventory() {
+            return `
+                <article class="card">
+                    <header class="card__header">
+                        <div>
+                            <p class="eyebrow">Asset health</p>
+                            <h3>Inventory snapshot</h3>
+                        </div>
+                        <button class="btn btn--ghost btn--small" onclick="alert('Automated procurement integrates with SAP in production')"><i class="fa-solid fa-cart-shopping"></i> Raise request</button>
+                    </header>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Threshold</th>
+                                    <th>Status</th>
+                                    <th>Last audit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${dataset.inventory.map(item => `
+                                    <tr>
+                                        <td>${item.item}</td>
+                                        <td>${item.category}</td>
+                                        <td>${item.quantity}</td>
+                                        <td>${item.threshold}</td>
+                                        <td><span class="chip ${item.status === 'Reorder' ? 'chip--danger' : item.status === 'Maintenance' ? 'chip--warning' : 'chip--info'}">${item.status}</span></td>
+                                        <td>${item.lastAudit}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            `;
+        }
+
+        function setActiveModule(moduleKey) {
+            const module = moduleMap[moduleKey] || moduleMap.dashboard;
+            moduleLabel.textContent = module.label;
+            moduleRoot.innerHTML = module.renderer();
+            navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.module === moduleKey));
+        }
+
+        function showToast({ title = 'Notice', message = 'Action complete' }) {
+            const template = document.getElementById('toastTemplate');
+            const toast = template.content.firstElementChild.cloneNode(true);
+            toast.querySelector('.toast__title').textContent = title;
+            toast.querySelector('.toast__message').textContent = message;
+            toast.querySelector('.toast__close').addEventListener('click', () => toast.remove());
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4500);
+        }
+
+        function persistSession(user) {
+            sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+        }
+
+        function clearSession() {
+            sessionStorage.removeItem(SESSION_KEY);
+        }
+
+        function updateUserContext(user) {
+            const isAuthenticated = Boolean(user);
+            sidebarUser.textContent = isAuthenticated ? user.name : 'Guest';
+            sidebarRole.textContent = isAuthenticated ? user.role : 'Limited mode';
+            sessionStatus.classList.toggle('status-dot--online', isAuthenticated);
+            sessionStatus.classList.toggle('status-dot--offline', !isAuthenticated);
+            userName.textContent = isAuthenticated ? user.name : 'Guest user';
+            userEmail.textContent = isAuthenticated ? user.email : 'Restricted preview';
+            securityPanel.classList.toggle('hidden', isAuthenticated);
+            document.body.classList.toggle('locked', !isAuthenticated);
+        }
+
+        function handleAuthentication(event) {
+            event.preventDefault();
+            const email = document.getElementById('accessEmail').value.trim().toLowerCase();
+            const password = document.getElementById('accessPassword').value.trim();
+
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                const user = { name: 'Cloud Admin', email: ADMIN_EMAIL, role: 'System Administrator' };
+                updateUserContext(user);
+                persistSession(user);
+                showToast({ title: 'Access granted', message: 'Secure console unlocked.' });
+                setActiveModule('dashboard');
+            } else {
+                showToast({ title: 'Access denied', message: 'Invalid credentials. Please try again.' });
+            }
+        }
+
+        function hydrateSession() {
+            const stored = sessionStorage.getItem(SESSION_KEY);
+            if (stored) {
+                const user = JSON.parse(stored);
+                updateUserContext(user);
+                setActiveModule('dashboard');
+            } else {
+                updateUserContext(null);
+            }
+        }
+
+        function resetDemoData() {
+            sessionStorage.clear();
+            localStorage.removeItem(THEME_KEY);
+            updateUserContext(null);
+            setActiveModule('dashboard');
+            showToast({ title: 'Demo reset', message: 'Local session cleared.' });
+        }
+
+        function handleLogout() {
+            clearSession();
+            updateUserContext(null);
+            showToast({ title: 'Signed out', message: 'Session securely closed.' });
+        }
+
+        function toggleTheme() {
+            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.dataset.theme = nextTheme;
+            localStorage.setItem(THEME_KEY, nextTheme);
+        }
+
+        function hydrateTheme() {
+            const stored = localStorage.getItem(THEME_KEY);
+            if (stored) {
+                document.documentElement.dataset.theme = stored;
+            } else {
+                document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+        }
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => setActiveModule(button.dataset.module));
+        });
+
+        accessForm.addEventListener('submit', handleAuthentication);
+        resetStorageBtn.addEventListener('click', resetDemoData);
+        logoutBtn.addEventListener('click', handleLogout);
+        menuToggle.addEventListener('click', () => sidebar.classList.toggle('sidebar--open'));
+        themeToggle.addEventListener('click', toggleTheme);
+
+        hydrateTheme();
+        hydrateSession();
+        setActiveModule('dashboard');
+    </script>
 </body>
 </html>
+
